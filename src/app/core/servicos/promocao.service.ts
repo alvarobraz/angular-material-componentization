@@ -11,7 +11,7 @@ export class PromocaoService {
 
   private apiUrl: string = environment.apiUrl;
 
-  constructor(
+      constructor(
           private httpClient: HttpClient
       ) { }
 
