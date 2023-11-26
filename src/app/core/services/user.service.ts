@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { TokenService } from './token.service';
 import { PessoaUsuaria } from '../types/types';
 import { BehaviorSubject } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+// import jwtDecode = require('jwt-decode');
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,7 @@ export class UserService {
 
   private decodificarJWT() {
     const token = this.tokenService.retornarToken();
-    const user = jwt_decode(token) as PessoaUsuaria;
+    const user = jwtDecode(token) as PessoaUsuaria;
     this.userSubject.next(user);
   }
 
@@ -43,7 +45,5 @@ export class UserService {
 
 }
 
-function jwt_decode(token: string): PessoaUsuaria {
-  throw new Error('Function not implemented.');
-}
+
 

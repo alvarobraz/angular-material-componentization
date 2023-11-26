@@ -11,7 +11,9 @@ import { PessoaUsuaria } from 'src/app/core/types/types';
 })
 export class CadastroComponent {
 
-  perfilComponent=false;
+  titulo = 'Crie sua conta';
+  textoBotao = 'Criar minha conta';
+  perfilComponent = true;
 
   constructor(
     private formularioService: FormularioService,
