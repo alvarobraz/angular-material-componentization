@@ -18,9 +18,18 @@
     border-color: white;
   }
 
+  .firstButton {
+    padding: 0 40px 0 0;
+  }
+
+  .secondButton {
+    margin: 0 16px 0 0;
+  }
+
   .user {
-    padding: 0 16px 0 16px;
     position: relative;
-    top: 6px;
+    right: 10px;
+    top: 10px;
+    right: 5px;
   }
 }
