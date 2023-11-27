@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipSelectionChange } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
+import { DadosBusca } from '../types/types';
 
 @Injectable({
   providedIn: 'root'
@@ -13,24 +14,63 @@ export class FormBuscaService {
 
   constructor(private dialog: MatDialog) {
 
+    const somenteIda = new FormControl(false, [Validators.required])
+    const dataVolta = new FormControl(null, [Validators.required])
+
     this.formBusca = new FormGroup({
-      somenteIda: new FormControl(false),
-      origem: new FormControl(null),
-      destino: new FormControl(null),
-      tipo: new FormControl('Executiva'),
+      somenteIda,
+      origem: new FormControl(null, [Validators.required]),
+      destino: new FormControl(null, [Validators.required]),
+      tipo: new FormControl("Executiva"),
       adultos: new FormControl(3),
       criancas: new FormControl(0),
-      bebes: new FormControl(1)
+      bebes: new FormControl(1),
+      dataIda: new FormControl(null, [Validators.required]),
+      dataVolta
     })
+
+    somenteIda.valueChanges.subscribe(somenteIda => {
+      if(somenteIda){
+        dataVolta.disable();
+        dataVolta.setValidators(null)
+      }else{
+        dataVolta.enable();
+        dataVolta.setValidators([Validators.required])
+      }
+      dataVolta.updateValueAndValidity
+    })
+
   }
 
-  obterControle(nome:string): FormControl {
+  obterControle<T>(nome:string): FormControl {
     const control = this.formBusca.get(nome);
     if (!control) {
       throw new Error(`FormControl com nome "${nome}" não existe.`);
     }
-    return control as FormControl;
+    return control as FormControl<T>;
   }
+
+  obterDadosBusca(): DadosBusca {
+    const dataIdaControl = this.obterControle<Date>('dataIda');
+    const dadosBusca: DadosBusca = {
+      pagina: 1,
+      porPagina: 50,
+      somenteIda: this.obterControle<boolean>('somenteIda').value,
+      origemId: this.obterControle<number>('origem').value.id,
+      destinoId: this.obterControle<boolean>('destino').value.id,
+      tipo: this.obterControle<string>('tipo').value,
+      passageirosAdultos: this.obterControle<number>('adultos').value,
+      passageirosCriancas: this.obterControle<number>('criancas').value,
+      passageirosBebes: this.obterControle<number>('bebes').value,
+      dataIda: dataIdaControl.value.toISOString()
+    }
+    const dataVoltaControl = this.obterControle<Date>('dataVolta');
+    if (dataVoltaControl.value) {
+      dadosBusca.dataVolta = dataVoltaControl.value.toISOString();
+    }
+    return dadosBusca
+  }
+
 
   openDialog() {
     this.dialog.open(ModalComponent, {
@@ -76,6 +116,10 @@ export class FormBuscaService {
       origem: destino,
       destino: origem
     });
+  }
+
+  get formEstaValido() {
+    return this.formBusca.valid
   }
 
 }
