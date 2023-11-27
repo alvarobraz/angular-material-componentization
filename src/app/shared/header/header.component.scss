@@ -17,4 +17,10 @@
   .mat-mdc-outlined-button:not(:disabled) {
     border-color: white;
   }
+
+  .user {
+    padding: 0 16px 0 16px;
+    position: relative;
+    top: 6px;
+  }
 }
