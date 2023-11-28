@@ -1,7 +1,6 @@
-// src/app/pages/home/depoimentos/depoimentos.component.ts
 import { Component } from '@angular/core';
 import { DepoimentoService } from 'src/app/core/services/depoimento.service';
-import { Depoimento } from 'src/app/core/types/types';
+import { Depoimento } from 'src/app/core/types/type';
 
 @Component({
   selector: 'app-depoimentos',

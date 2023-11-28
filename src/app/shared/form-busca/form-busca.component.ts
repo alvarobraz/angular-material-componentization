@@ -1,7 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuscaService } from 'src/app/core/services/form-busca.service';
-
-
 
 @Component({
   selector: 'app-form-busca',
@@ -9,11 +7,9 @@ import { FormBuscaService } from 'src/app/core/services/form-busca.service';
   styleUrls: ['./form-busca.component.scss']
 })
 export class FormBuscaComponent {
-
   @Output() realizarBusca = new EventEmitter();
-  @Input() variant: 'primary' | 'secondary' = 'primary'
-
-  constructor(public formBuscaService : FormBuscaService) {}
+  constructor(
+    public formBuscaService: FormBuscaService) { }
 
   buscar() {
     if (this.formBuscaService.formEstaValido) {
@@ -23,7 +19,4 @@ export class FormBuscaComponent {
       alert('O formulário precisa ser preenchido')
     }
   }
-
-
-
 }

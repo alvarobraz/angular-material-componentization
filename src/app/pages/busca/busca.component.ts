@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuscaService } from 'src/app/core/services/form-busca.service';
 import { PassagensService } from 'src/app/core/services/passagens.service';
-import { DadosBusca, Passagem } from 'src/app/core/types/types';
+import { DadosBusca, Passagem, Resultado } from 'src/app/core/types/type';
 
 @Component({
   selector: 'app-busca',
@@ -9,14 +9,11 @@ import { DadosBusca, Passagem } from 'src/app/core/types/types';
   styleUrls: ['./busca.component.scss']
 })
 export class BuscaComponent implements OnInit {
-
   passagens: Passagem[] = []
-
   constructor(
     private passagensService: PassagensService,
     private formBuscaService: FormBuscaService
-  ){}
-
+  ) { }
   ngOnInit(): void {
     const buscaPadrao = {
       data: new Date().toISOString,
@@ -33,17 +30,12 @@ export class BuscaComponent implements OnInit {
         this.passagens = res.resultado
       }
     )
-
   }
-
   busca(ev: DadosBusca) {
     this.passagensService.getPassagens(ev).subscribe(
-    res => {
-      console.log(res)
-      this.passagens = res.resultado
-    })
+      res => {
+        console.log(res)
+        this.passagens = res.resultado
+      })
   }
-
-
-
 }

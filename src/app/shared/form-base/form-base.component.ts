@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { FormularioService } from 'src/app/core/services/formulario.service';
-import { UnidadeFederativa } from 'src/app/core/types/types';
+import { UnidadeFederativa } from 'src/app/core/types/type';
 import { FormValidations } from '../form-validations';
 
 @Component({
@@ -24,7 +24,6 @@ export class FormBaseComponent implements OnInit{
     private formularioService: FormularioService
   ) { }
 
-
   ngOnInit() {
     this.cadastroForm = this.formBuilder.group({
       nome: [null, Validators.required],
@@ -38,25 +37,22 @@ export class FormBaseComponent implements OnInit{
       estado: this.estadoControl,
       confirmarEmail: [null, [Validators.required, Validators.email, FormValidations.equalTo('email')]],
       confirmarSenha: [null, [Validators.required, Validators.minLength(3), FormValidations.equalTo('senha')]],
-      aceitarTermos: [null, [Validators.requiredTrue]]
+      aceitarTermos: [false, [Validators.requiredTrue]]
     });
 
-    if(this.perfilComponent) {
-        this.cadastroForm.get('aceitarTermos')?.setValidators(null)
+    if(this.perfilComponent){
+      this.cadastroForm.get('aceitarTermos')?.setValidators(null)
     } else {
-        this.cadastroForm.get('aceitarTermos')?.setValidators([Validators.requiredTrue])
+      this.cadastroForm.get('aceitarTermos')?.setValidators([Validators.requiredTrue])
     }
-
 
     this.cadastroForm.get('aceitarTermos')?.updateValueAndValidity();
 
     this.formularioService.setCadastro(this.cadastroForm)
   }
 
-
-
   executarAcao() {
-    this.acaoClique.emit()
+    this.acaoClique.emit();
   }
 
   deslogar() {

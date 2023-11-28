@@ -1,38 +1,41 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
+import { FormBuscaService } from 'src/app/core/services/form-busca.service';
 import { UnidadeFederativaService } from 'src/app/core/services/unidade-federativa.service';
-import { UnidadeFederativa } from 'src/app/core/types/types';
+import { UnidadeFederativa } from 'src/app/core/types/type';
 
 @Component({
   selector: 'app-dropdown-uf',
   templateUrl: './dropdown-uf.component.html',
   styleUrls: ['./dropdown-uf.component.scss']
 })
-export class DropdownUfComponent {
+export class DropdownUfComponent implements OnInit {
   @Input() label: string = '';
-  @Input() iconePrefixo?: string = '';
-  @Input() placeholder: string = '';
+  @Input() iconePrefixo: string = '';
   @Input() control!: FormControl;
-
+  @Input() placeholder: string = '';
 
   unidadesFederativas: UnidadeFederativa[] = [];
 
-  public filteredOptions$?: Observable<UnidadeFederativa[]>;
+  filteredOptions$?: Observable<UnidadeFederativa[]>;
 
 
-  constructor(private unidadeFederativaService: UnidadeFederativaService) { }
+  constructor(
+    private unidadeFederativaService: UnidadeFederativaService) {
+
+  }
 
   ngOnInit(): void {
     this.unidadeFederativaService.listar()
-    .subscribe(dados => {
-      this.unidadesFederativas = dados
-      console.log(this.unidadesFederativas)
-    })
+      .subscribe(dados => {
+        this.unidadesFederativas = dados
+        console.log(this.unidadesFederativas)
+      })
     this.filteredOptions$ = this.control.valueChanges.pipe(
       startWith(''),
       map(value => this.filtrarUfs(value))
-      )
+    )
   }
 
   filtrarUfs(value: string | UnidadeFederativa): UnidadeFederativa[] {
@@ -47,6 +50,4 @@ export class DropdownUfComponent {
   displayFn(estado: UnidadeFederativa): string {
     return estado && estado.nome ? estado.nome : '';
   }
-
-
 }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Passagem } from 'src/app/core/types/types';
+import { Passagem } from 'src/app/core/types/type';
 
 @Component({
   selector: 'app-passagem',
@@ -8,5 +8,10 @@ import { Passagem } from 'src/app/core/types/types';
 })
 export class PassagemComponent {
   @Input() passagem!: Passagem;
-  @Input() textoIdaVolta: string = "Ida e Volta"
+  get textoIdaVolta(){
+    if(!this.passagem.dataVolta){
+      return "Somente ida"
+    }
+      return "Ida e volta"
+  }
 }

@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TokenService } from './token.service';
-import { PessoaUsuaria } from '../types/types';
-import { BehaviorSubject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
-// import jwtDecode = require('jwt-decode');
+import { BehaviorSubject } from 'rxjs';
+import { PessoaUsuaria } from '../types/type';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class UserService {
 
   private userSubject = new BehaviorSubject<PessoaUsuaria | null>(null);
@@ -42,7 +40,6 @@ export class UserService {
   estaLogado() {
     return this.tokenService.possuiToken();
   }
-
 }
 
 
